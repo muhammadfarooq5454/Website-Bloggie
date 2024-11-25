@@ -1,0 +1,59 @@
+﻿@model List<Bloggie.Web.Models.Domain.BlogPost>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>All BlogPosts - Admin Functionality</h1>
+    </div>
+</div>
+
+<div class="container py-5">
+    @if(@Model != null && @Model.Any())
+    {
+        <table class="table table-hover" style="color:white">
+            <thead>
+                <tr>
+                    <th class="text-decoration-underline">Id</th>
+                    <th class="text-decoration-underline">Heading</th>
+                    <th class="text-decoration-underline">Tags</th>
+                    <th class="text-decoration-underline">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var blogPost in Model)
+                {
+                    <tr>
+                        <td>@blogPost.Id</td>
+                        <td>@blogPost.Heading</td>
+                        <td>
+                            <div class="d-flex">
+                                @foreach(var tag in blogPost.Tags)
+                                {
+                                    <h6>
+                                        <span class="badge bg-secondary me-2">
+                                            @tag.Name
+                                        </span>
+                                    </h6>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <a  asp-area=""
+                                asp-controller="AdminBlogPosts"
+                                asp-action="Edit" 
+                                asp-route-id="@blogPost.Id">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No BlogPost Found!</p>
+    }
+</div>

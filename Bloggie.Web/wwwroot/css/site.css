@@ -1,0 +1,47 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  background-color: black;
+  color: white;
+}
+
+/* Ensure table text in rows is white */
+table.table tbody td {
+    color: white; /* Makes text white */
+}
+
+/* Table header styling for better contrast */
+table.table thead th {
+    color: white; /* Makes header text white */
+    background-color: black; /* Adds a black background */
+}
+
+/* Table row hover effect */
+table.table tbody tr:hover {
+    background-color: gray; /* Highlight row with a gray background */
+    color: black; /* Change text color to black on hover for visibility */
+}
+
+/* Badge styling */
+.badge {
+    background-color: gray; /* Badge background */
+    color: white; /* Badge text color */
+}

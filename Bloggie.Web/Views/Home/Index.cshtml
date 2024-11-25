@@ -1,0 +1,83 @@
+﻿@model Bloggie.Web.Models.DataTransfers.HomeViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-5 py-5">
+        
+        <div class="col-12 col-lg-6">
+            <h1 class="display-5 fw-bold lh-1 mb-3">
+                Bloggie - A Blog Master Web
+            </h1>
+            <p>Bloggie is the game to coding blogs covering a vast range of
+                topics like HTML, CSS, Javascript, ASP.NET, C# and Angular etc.
+                Want to read the latest dev articles? Join the bloggie app and get weekly updated blogs!
+            </p>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <img src="https://images.pexels.com/photos/1229861/pexels-photo-1229861.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                 alt="Bloggie - Dev blogs"
+                 class="d-block mx-lg-auto img-fluid"/>
+        </div>
+    </div>
+
+
+    <div class="container mb-2">
+        <div class="row justify-content-center">
+            <div class="col-6"> 
+                @if (Model is not null && Model.tags.Any())
+                {
+                    @foreach (var tag in Model.tags)
+                    {
+                        <span class="badge bg-dark me-1">
+                            @tag.Name
+                        </span>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container m-auto">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                @if(Model is not null && Model.blogPosts.Any())
+                {
+                    @foreach(var blogPost in Model.blogPosts)
+                    {
+                        <div class="mb-5 px-2 py-2 bg-dark box-shadow">
+                            <img src="@blogPost.FeaturedImageUrl" alt="blogpost.Heading"class="mb-2 d-block img-fluid" width="600"/>
+                            <h2 class="mb-4">@blogPost.Heading</h2>
+                            <p class="mb-4">
+                                Author: @blogPost.Author
+                                <br />
+                                Published Date: @blogPost.PublishedDate.ToShortDateString()
+                            </p>
+                            <p class="mb-4">
+                                @foreach(var tag in blogPost.Tags)
+                                {
+                                    <span class="badge bg-secondary me-1">
+                                        @tag.Name
+                                    </span>
+                                }
+                            </p>
+                            <p class="mb-2">
+                                @blogPost.ShortDescription
+                            </p>
+                            <a  class="btn btn-light"
+                                asp-area="" 
+                                asp-controller="Blogs" 
+                                asp-action="Index" 
+                                asp-route-urlHandle="@blogPost.UrlHandle">Read More...</a>
+                        </div>
+                    }      
+                }
+            </div>
+        </div>
+    </div>
+</div>
