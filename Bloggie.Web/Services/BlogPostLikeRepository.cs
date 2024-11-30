@@ -21,6 +21,11 @@ namespace Bloggie.Web.Services
             return blogPostLike;
         }
 
+        public async Task<List<BlogPostLike>> GetAllLikesForBlogForUser(Guid blogPostId)
+        {
+            return await bloggieDbContext.blogPostLike.Where(x => x.BlogPostId == blogPostId).ToListAsync();
+        }
+
         public async Task<int> GetTotalLikes(Guid blogPostId)
         {   
             int totalcount = await bloggieDbContext.blogPostLike.CountAsync(x => x.BlogPostId == blogPostId);

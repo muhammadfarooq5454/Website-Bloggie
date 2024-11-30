@@ -16,5 +16,6 @@ namespace Bloggie.Web.Models.DataTransfers
         public bool Visible { get; set; }
         public ICollection<Tag> Tags { get; set; } //ICollection (Many to Many Relationship)
         public int TotalLikes { get; set; }
+        public bool isLikedbyCurrentUser { get; set; }
     }
 }

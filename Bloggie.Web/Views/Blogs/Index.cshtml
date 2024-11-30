@@ -23,12 +23,21 @@
                 <div class="d-flex">
                     @if(signInManager.IsSignedIn(User))
                     {
-                        <div class="mb-3 me-3">
-                            <a id="btnLike" style="cursor: pointer;"><i class="bi bi-hand-thumbs-up"></i></a>
-                        </div>
+                        @if(Model.isLikedbyCurrentUser == true)
+                        {
+                            <div class="mb-3 me-3">
+                                <a style="cursor: pointer;"><i class="bi bi-hand-thumbs-up-fill"></i></a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-3 me-3">
+                                <a id="btnLike" style="cursor: pointer;"><i class="bi bi-hand-thumbs-up"></i></a>
+                            </div>    
+                        }
                     }
                     <div class="mb-3">
-                        <span>@Model.TotalLikes</span> Likes
+                        <span id="totalLikes">@Model.TotalLikes</span> Likes
                     </div>
                 </div>
                 <div class="mb-3 d-flex">
@@ -54,9 +63,28 @@
 
 @section Scripts{
     <script>
-        var likebutton = document.getElementById("btnLike");
-
         //Adding JS to call the WEB API
+
+        const likebutton = document.getElementById("btnLike");
+        const totallikes = document.getElementById("totalLikes");
+
+        async function GetTotalLikes()
+        {
+            params = {
+                method : "GET",
+                headers: {
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json'
+                }
+            }
+
+            //Calling A WebApi Controller Method to GetTotalLikes
+            await fetch("/api/BlogPostLike/TotalLikes/@Model.Id", params)
+                .then(response => response.json())
+                .then(data => totallikes.innerHTML = data);
+        }
+
+
         async function addLikeforBlog() 
         {
             settings = {
@@ -75,6 +103,8 @@
             await fetch("/api/BlogPostLike/Add", settings)
             .then(()=>{
                 likebutton.innerHTML = `<i class="bi bi-hand-thumbs-up-fill"></i>`;
+                likebutton.removeEventListener("click", addLikeforBlog);
+                GetTotalLikes();
             });
         }
 
