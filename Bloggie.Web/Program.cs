@@ -3,11 +3,18 @@ using Bloggie.Web.Services;
 using CloudinaryDotNet;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Configure Serilog
+builder.Host.UseSerilog((context, config) =>
+{
+    config.ReadFrom.Configuration(context.Configuration);
+});
 
 builder.Services.AddDbContext<BloggieDbContext>(options => 
 options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieDbConnectionString")));
@@ -19,6 +26,7 @@ builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
 builder.Services.AddScoped<IImageRepository, CloudinaryImageRepository>();
 builder.Services.AddScoped<IBlogPostLikeRepository, BlogPostLikeRepository>();
+builder.Services.AddScoped<LoggerService>();
 
 //Make the Identity class and models in AuthDbContext available to the application
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()

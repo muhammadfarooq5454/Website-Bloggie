@@ -11,31 +11,49 @@ namespace Bloggie.Web.Controllers
     public class BlogPostLikeController : ControllerBase
     {
         private readonly IBlogPostLikeRepository _blogPostLikeRepository;
-        public BlogPostLikeController(IBlogPostLikeRepository blogPostLikeRepository)
+        private readonly LoggerService _loggerService;
+        public BlogPostLikeController(IBlogPostLikeRepository blogPostLikeRepository, LoggerService loggerService)
         {
             _blogPostLikeRepository = blogPostLikeRepository;
+            _loggerService = loggerService;
         }
 
         [HttpPost]
         [Route("Add")]
         public async Task<IActionResult> AddLike([FromBody] AddLikeBlogPostRequest addLikeBlogPostRequest)
         {
-            var blogPostLike = new BlogPostLike()
+            try
             {
-                BlogPostId = addLikeBlogPostRequest.BlogPostId,
-                UserId = addLikeBlogPostRequest.UserId
-            };
+                var blogPostLike = new BlogPostLike()
+                {
+                    BlogPostId = addLikeBlogPostRequest.BlogPostId,
+                    UserId = addLikeBlogPostRequest.UserId
+                };
 
-            await _blogPostLikeRepository.AddLikeForBlog(blogPostLike);
-            return Ok();
+                await _blogPostLikeRepository.AddLikeForBlog(blogPostLike);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                await _loggerService.LoggerAsync(ex.Message);
+                return Problem();
+            }
         }
 
         [HttpGet]
         [Route("TotalLikes/{blogPostId:guid}")]
         public async Task<IActionResult> GetTotalLikesForBlog([FromRoute] Guid blogPostId)
         {
-           var totalLikes = await _blogPostLikeRepository.GetTotalLikes(blogPostId);
-           return Ok(totalLikes);
+            try
+            {
+               var totalLikes = await _blogPostLikeRepository.GetTotalLikes(blogPostId);
+               return Ok(totalLikes);
+            }
+            catch(Exception ex)
+            {
+                await _loggerService.LoggerAsync(ex.Message);
+                return Problem();
+            }
         }
     }
 }
