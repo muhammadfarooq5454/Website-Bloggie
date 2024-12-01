@@ -34,7 +34,7 @@ namespace Bloggie.Web.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("BlogPostTag");
+                    b.ToTable("BlogPostTag", (string)null);
                 });
 
             modelBuilder.Entity("Bloggie.Web.Models.Domain.BlogPost", b =>
@@ -79,7 +79,7 @@ namespace Bloggie.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BlogPosts");
+                    b.ToTable("BlogPosts", (string)null);
                 });
 
             modelBuilder.Entity("Bloggie.Web.Models.Domain.BlogPostLike", b =>
@@ -98,50 +98,7 @@ namespace Bloggie.Web.Migrations
 
                     b.HasIndex("BlogPostId");
 
-                    b.ToTable("blogPostLike");
-                });
-
-            modelBuilder.Entity("Bloggie.Web.Models.Domain.ErrorException", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
-
-                    b.Property<int>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ErrorExceptions");
+                    b.ToTable("blogPostLike", (string)null);
                 });
 
             modelBuilder.Entity("Bloggie.Web.Models.Domain.Tag", b =>
@@ -160,7 +117,7 @@ namespace Bloggie.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("BlogPostTag", b =>

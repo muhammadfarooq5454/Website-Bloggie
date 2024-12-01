@@ -1,26 +1,27 @@
 ﻿using Bloggie.Web.Data;
 using Bloggie.Web.Models.Domain;
+using Serilog;
 
 namespace Bloggie.Web.Services
 {
     public class LoggerService
     {
-        private readonly BloggieDbContext _bloggieDbContext;
-
-        public LoggerService(BloggieDbContext bloggieDbContext)
-        { 
-            _bloggieDbContext = bloggieDbContext;
+        public async Task LogErrorAsync(string message, Exception ex = null)
+        {
+            Log.Error(ex, message); // Include exception if provided
+            await Task.CompletedTask;
         }
 
-        public async Task LoggerAsync(string message)
+        public async Task LogInfoAsync(string message)
         {
-            var errorException = new ErrorException()
-            {
-                Message = message
-            };
+            Log.Information(message);
+            await Task.CompletedTask;
+        }
 
-            await _bloggieDbContext.ErrorExceptions.AddAsync(errorException);
-            await _bloggieDbContext.SaveChangesAsync();
+        public async Task LogWarningAsync(string message)
+        {
+            Log.Warning(message);
+            await Task.CompletedTask;
         }
     }
 }

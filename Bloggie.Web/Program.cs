@@ -11,10 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Configure Serilog
-builder.Host.UseSerilog((context, config) =>
+builder.Host.UseSerilog((context, loggerConfiguration) =>
 {
-    config.ReadFrom.Configuration(context.Configuration);
+    loggerConfiguration
+        .ReadFrom.Configuration(context.Configuration)
+        .Enrich.FromLogContext();
 });
+
 
 builder.Services.AddDbContext<BloggieDbContext>(options => 
 options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieDbConnectionString")));
@@ -45,6 +48,8 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 var app = builder.Build();
+
+app.UseSerilogRequestLogging(); // Log HTTP requests
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

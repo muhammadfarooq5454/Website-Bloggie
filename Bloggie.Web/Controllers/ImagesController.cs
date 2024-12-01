@@ -36,7 +36,7 @@ namespace Bloggie.Web.Controllers
             }
             catch(Exception ex)
             {
-                await loggerService.LoggerAsync(ex.Message);
+                await loggerService.LogErrorAsync(ex.Message);
                 return Problem("An unexpected error occurred.", null, (int)HttpStatusCode.InternalServerError);
             }
         }

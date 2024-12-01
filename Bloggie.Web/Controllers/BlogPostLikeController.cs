@@ -35,7 +35,7 @@ namespace Bloggie.Web.Controllers
             }
             catch(Exception ex)
             {
-                await _loggerService.LoggerAsync(ex.Message);
+                await _loggerService.LogErrorAsync(ex.Message, ex);
                 return Problem();
             }
         }
@@ -46,12 +46,12 @@ namespace Bloggie.Web.Controllers
         {
             try
             {
-               var totalLikes = await _blogPostLikeRepository.GetTotalLikes(blogPostId);
-               return Ok(totalLikes);
+                var totalLikes = await _blogPostLikeRepository.GetTotalLikes(blogPostId);
+                return Ok(totalLikes);
             }
             catch(Exception ex)
             {
-                await _loggerService.LoggerAsync(ex.Message);
+                await _loggerService.LogErrorAsync(ex.Message, ex);
                 return Problem();
             }
         }
