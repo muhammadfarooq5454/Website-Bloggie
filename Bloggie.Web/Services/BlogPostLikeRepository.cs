@@ -21,6 +21,13 @@ namespace Bloggie.Web.Services
             return blogPostLike;
         }
 
+        public async Task<BlogPostLike> RemoveLikeForBlog(BlogPostLike blogPostLike)
+        {
+            bloggieDbContext.blogPostLike.Remove(blogPostLike);
+            await bloggieDbContext.SaveChangesAsync();
+            return blogPostLike;
+        }
+
         public async Task<List<BlogPostLike>> GetAllLikesForBlogForUser(Guid blogPostId)
         {
             return await bloggieDbContext.blogPostLike.Where(x => x.BlogPostId == blogPostId).ToListAsync();

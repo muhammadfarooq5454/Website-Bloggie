@@ -9,5 +9,7 @@ namespace Bloggie.Web.Services
         public Task<List<BlogPostLike>> GetAllLikesForBlogForUser(Guid blogPostId);
 
         public Task<BlogPostLike> AddLikeForBlog(BlogPostLike blogPostLike);
+        public Task<BlogPostLike> RemoveLikeForBlog(BlogPostLike blogPostLike);
+    
     }
 }

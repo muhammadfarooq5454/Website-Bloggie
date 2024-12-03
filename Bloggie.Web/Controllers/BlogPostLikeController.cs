@@ -40,6 +40,29 @@ namespace Bloggie.Web.Controllers
             }
         }
 
+
+        [HttpPost]
+        [Route("Remove")]
+        public async Task<IActionResult> RemoveLike([FromBody] RemoveLikeBlogPostRequest removeLikeBlogPostRequest)
+        {
+            try
+            {
+                var blogPostLike = new BlogPostLike()
+                {
+                    UserId = removeLikeBlogPostRequest.UserId,
+                    BlogPostId = removeLikeBlogPostRequest.BlogPostId
+                };
+
+                await _blogPostLikeRepository.RemoveLikeForBlog(blogPostLike);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                await _loggerService.LogErrorAsync(ex.Message, ex);
+                return Problem();
+            }
+        }
+
         [HttpGet]
         [Route("TotalLikes/{blogPostId:guid}")]
         public async Task<IActionResult> GetTotalLikesForBlog([FromRoute] Guid blogPostId)
